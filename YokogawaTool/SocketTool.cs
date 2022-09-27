@@ -186,7 +186,7 @@ namespace YokogawaTool
         public bool Write(string address, ushort cmd)
         {
             int readLength;
-            string cmdString = cmd.ToString();
+            string cmdString = Convert.ToString(cmd, 16);
             while (cmdString.Length < 4)
             {
                 cmdString = cmdString.Insert(0, "0");
@@ -464,6 +464,13 @@ namespace YokogawaTool
 
         #region 读取PLC
 
+        /// <summary>
+        /// 尝试读取，失败会重试times次。成功则将读取的字节码返回
+        /// </summary>
+        /// <param name="cmd">不带结束符的读取命令</param>
+        /// <param name="readResult">读取到的字节码</param>
+        /// <param name="getLength">读取到的长度</param>
+        /// <returns>读取成功与否</returns>
         private bool TryRead(string cmd, out byte[] readResult, out int getLength)
         {
             bool b = false;
@@ -502,6 +509,7 @@ namespace YokogawaTool
         /// <returns>读取的结果</returns>
         public ReadResult<ushort> ReadU16(string address)
         {
+            int cmdLength = 1;
             int readLength;
             string recStr;
             byte[] bytes = null;
@@ -515,13 +523,13 @@ namespace YokogawaTool
                 recStr = Encoding.ASCII.GetString(bytes, 0, readLength);
                 if (recStr.Contains("11OK"))
                 {
-                    recStr = recStr.Substring(4);
+                    recStr = recStr.Substring(4, 4 * cmdLength);
                 }
                 else
                 {
                     return result;
                 }
-                ushort recShort = ushort.Parse(recStr);
+                UInt16 recShort = Convert.ToUInt16(recStr, 16);
                 result.isSuccess = true;
                 result.result = recShort;
             }
@@ -534,26 +542,31 @@ namespace YokogawaTool
             byte[] bytes = null;
             ReadResult<ushort[]> result = new ReadResult<ushort[]>();
             result.isSuccess = false; //默认值为false，失败
+            if (length > 64)
+            {
+                return result;
+            }
 
-            bool isSuccess = TryRead("RDS " + address + ".U " + length + "\r", out bytes, out readLength);
+            bool isSuccess = TryRead("01WRD" + address + " " + length, out bytes, out readLength);
 
             if (isSuccess)
             {
                 recStr = Encoding.ASCII.GetString(bytes, 0, readLength);
-                var indexOf = recStr.IndexOf('\r');
-                if (indexOf != -1)
+                if (recStr.Contains("11OK"))
                 {
-                    recStr = recStr.Substring(0, indexOf);
+                    recStr = recStr.Substring(4);
                 }
-                char[] chars = { ' ' };
-                string[] strings = recStr.Split(chars); //按照空格分隔
-                ushort[] ushorts = new ushort[strings.Length];
-                for (int i = 0; i < strings.Length; i++)
+                else
                 {
-                    ushorts[i] = ushort.Parse(strings[i]);
+                    return result;
                 }
+                for (int i = 0; i < length; i++)
+                {
+                    string v = recStr.Substring((4 * i), 4).Trim();
+                    result.result[i] = Convert.ToUInt16(v, 16);
+                }
+                UInt16 recShort = Convert.ToUInt16(recStr, 16);
                 result.isSuccess = true;
-                result.result = ushorts;
             }
             return result;
         }

@@ -247,5 +247,20 @@ namespace YokogawaTool
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UInt16 a = 1;
+
+            string cmdString = Convert.ToString(a, 16);
+            /*int length = 3;
+            string recStr = "1234ffff1f2f";
+            UInt16[] result = new UInt16[length];
+            for (int i = 0; i < length; i++)
+            {
+                string v = recStr.Substring((4 * i), 4).Trim();
+                result[i] = Convert.ToUInt16(v, 16);
+            }
+            return;*/
+        }
     }
 }
