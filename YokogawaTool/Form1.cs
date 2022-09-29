@@ -82,8 +82,8 @@ namespace YokogawaTool
                 }
                 else
                 {
-                    Show("无效操作");return;
-                    /*ReadResult<UInt16[]> readResult = plc.ReadU16(tb_ReadWordAddress.Text, num);
+                    //Show("无效操作1");return;
+                    ReadResult<UInt16[]> readResult = plc.ReadU16(tb_ReadWordAddress.Text, num);
 
                     if (readResult.isSuccess)
                     {
@@ -92,7 +92,7 @@ namespace YokogawaTool
                     else
                     {
                         Show("读取失败");
-                    }*/
+                    }
                 }
             }
             else
@@ -188,7 +188,7 @@ namespace YokogawaTool
 
         private void btn_ReadDWord_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btn_WriteDWord_Click(object sender, EventArgs e)
@@ -261,6 +261,14 @@ namespace YokogawaTool
                 result[i] = Convert.ToUInt16(v, 16);
             }
             return;*/
+        }
+        public uint ShortTOInt(UInt16 higth16, UInt16 low16)
+        {
+            uint result = 0;
+            result = higth16;
+            result = result << 16;
+            result = result | low16;
+            return result;
         }
     }
 }

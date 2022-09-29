@@ -349,15 +349,15 @@
             this.tb_WriteWordAddress.Name = "tb_WriteWordAddress";
             this.tb_WriteWordAddress.Size = new System.Drawing.Size(100, 21);
             this.tb_WriteWordAddress.TabIndex = 93;
-            this.tb_WriteWordAddress.Text = "m100";
+            this.tb_WriteWordAddress.Text = "D";
             // 
             // tb_ReadWordLength
             // 
-            this.tb_ReadWordLength.Enabled = false;
             this.tb_ReadWordLength.Location = new System.Drawing.Point(136, 77);
             this.tb_ReadWordLength.Name = "tb_ReadWordLength";
             this.tb_ReadWordLength.Size = new System.Drawing.Size(100, 21);
             this.tb_ReadWordLength.TabIndex = 92;
+            this.tb_ReadWordLength.Text = "50";
             // 
             // tb_ReadWordAddress
             // 
@@ -365,7 +365,7 @@
             this.tb_ReadWordAddress.Name = "tb_ReadWordAddress";
             this.tb_ReadWordAddress.Size = new System.Drawing.Size(100, 21);
             this.tb_ReadWordAddress.TabIndex = 91;
-            this.tb_ReadWordAddress.Text = "m0";
+            this.tb_ReadWordAddress.Text = "D1300";
             // 
             // tb_port
             // 
@@ -381,7 +381,7 @@
             this.tb_ip.Name = "tb_ip";
             this.tb_ip.Size = new System.Drawing.Size(100, 21);
             this.tb_ip.TabIndex = 89;
-            this.tb_ip.Text = "192.168.1.1";
+            this.tb_ip.Text = "192.168.0.2";
             // 
             // connect
             // 
