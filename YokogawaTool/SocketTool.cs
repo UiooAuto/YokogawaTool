@@ -547,6 +547,8 @@ namespace YokogawaTool
                 return result;
             }
 
+            result.result = new ushort[length];
+
             bool isSuccess = TryRead("01WRD" + address + " " + length, out bytes, out readLength);
 
             if (isSuccess)
